@@ -1,4 +1,4 @@
-USE Playstore_DB;
+USE PlayStoreDB;
 -- level 0
 ALTER TABLE Apps 
 ADD CONSTRAINT fk_developer
