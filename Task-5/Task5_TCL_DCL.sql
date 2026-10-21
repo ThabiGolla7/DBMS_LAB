@@ -1,0 +1,142 @@
+USE PlayStoreDB;
+-- LEVEL 0
+-- Q1
+UPDATE Apps 
+SET Rating = 4.8
+WHERE AppID = 1002;
+COMMIT;
+-- Q2
+UPDATE Apps 
+SET Price = 0
+WHERE AppID = 1006;
+ROLLBACK;
+
+-- Q3
+INSERT INTO Apps 
+VALUES (1009,'CapCut',101,201,301,4.8,1000000000,0);
+COMMIT;
+-- Q4
+INSERT INTO Developers 
+VALUES (106,'CapCut','China',2020);
+ROLLBACK;
+
+-- Q5 
+UPDATE Apps
+SET Rating = 4.9
+WHERE AppID = 1009;
+SAVEPOINT SP1;
+
+-- LEVEL 1
+-- Q1
+UPDATE Apps
+SET Rating = 4.9
+WHERE AppID = 1006;
+
+SAVEPOINT SP2;
+
+UPDATE Apps
+SET Rating = 4.5
+WHERE AppID = 1008;
+ -- Q2
+SAVEPOINT SP3;
+
+UPDATE Apps
+SET Price = 100
+WHERE AppID = 1009;
+
+ROLLBACK TO SAVEPOINT SP3;
+
+-- Q3
+INSERT INTO Apps 
+VALUES (1010,'Vmake',106,204,301,4.0,200000000,0);
+COMMIT;
+SAVEPOINT SP4;
+UPDATE Apps
+SET Price = 200
+WHERE AppID = 1010;
+ROLLBACK TO SP4;
+-- Q4
+GRANT SELECT 
+ON Apps 
+TO root;
+-- Q5
+GRANT INSERT
+ON Apps 
+TO root;
+-- Q6
+REVOKE INSERT
+ON Apps 
+FROM root;
+-- LEVEL 2
+-- Q1
+UPDATE Apps 
+SET Rating = 4.9
+WHERE Appid = 1005;
+SAVEPOINT SP5;
+
+UPDATE Apps
+SET Price =60
+WHERE AppID = 1004;
+
+SAVEPOINT SP6;
+
+UPDATE Apps 
+SET Rating = 4.6
+WHERE AppID = 1007;
+
+ROLLBACK TO SAVEPOINT SP6;
+
+-- Q2
+INSERT INTO Categories 
+VALUES (306,'AI',12);
+
+INSERT INTO Categories 
+VALUES (307,'Health',10);
+
+SAVEPOINT SP7;
+
+ROLLBACK TO SAVEPOINT SP7;
+
+-- Q3
+GRANT SELECT , INSERT, UPDATE
+ON Apps 
+TO root;
+
+-- Q4
+REVOKE UPDATE 
+ON Apps 
+FROM root;
+-- Q5
+GRANT SELECT 
+ON Developers
+TO root;
+REVOKE SELECT 
+ON Developers
+FROM root;
+
+-- Q6
+UPDATE Apps 
+SET Rating =4.9
+WHERE AppID = 1005;
+
+UPDATE Apps 
+SET Price = 160
+WHERE AppID = 1004;
+
+INSERT INTO Categories 
+VALUES (308,'Technology',10);
+
+COMMIT;
+
+-- Q7
+SELECT * FROM Apps;
+SELECT * FROM Categories;
+SELECT * FROM Developers;
+
+  
+
+
+
+
+
+
